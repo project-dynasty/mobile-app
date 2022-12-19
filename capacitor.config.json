@@ -1,5 +1,5 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "com.project-dynasty.mobile-app",
 	"appName": "DYNASTY",
 	"webDir": "dist",
 	"bundledWebRuntime": false
