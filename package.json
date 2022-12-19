@@ -12,8 +12,11 @@
   "dependencies": {
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.6.1",
+    "@capacitor/device": "^4.1.0",
     "@capacitor/haptics": "4.1.0",
+    "@capacitor/ios": "^4.6.1",
     "@capacitor/keyboard": "4.1.0",
+    "@capacitor/push-notifications": "^4.1.2",
     "@capacitor/status-bar": "4.1.1",
     "@ionic/storage": "^3.0.6",
     "@ionic/vue": "^6.0.0",
@@ -26,6 +29,7 @@
     "capacitor-resources": "^2.0.5",
     "core-js": "^3.6.5",
     "ionicons": "^6.0.3",
+    "maska": "^2.1.1",
     "vue": "^3.2.21",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.0.12"
