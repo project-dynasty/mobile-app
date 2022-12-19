@@ -1,6 +1,15 @@
 {
-	"appId": "com.project-dynasty.mobile-app",
-	"appName": "DYNASTY",
-	"webDir": "dist",
-	"bundledWebRuntime": false
+  "appId": "com.projectdynasty.mobileapp",
+  "appName": "DYNASTY",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    }
+  }
 }
