@@ -1,18 +1,18 @@
 <template>
   <ion-app>
-    <ion-router-outlet />
+    <router-view/>
   </ion-app>
 </template>
 
 <script lang="js">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { IonApp } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import "@/assets/styles/tailwind.css";
 
 export default defineComponent({
   name: 'App',
   components: {
-    IonApp,
-    IonRouterOutlet
+    IonApp
   }
 });
 </script>
