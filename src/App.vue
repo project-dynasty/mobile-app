@@ -5,9 +5,10 @@
 </template>
 
 <script lang="js">
-import { IonApp } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import {IonApp} from '@ionic/vue';
+import {defineComponent} from 'vue';
 import "@/assets/styles/tailwind.css";
+import MenuBar from "@/components/static/MenuBar";
 
 export default defineComponent({
   name: 'App',
