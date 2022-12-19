@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "DYNASTY",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
