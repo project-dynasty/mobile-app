@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <div class="shadow-md rounded px-8 pb-8 mb-4">
     <div v-if="!status.status || status.status !== '2fa'" class="mb-4">
       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
         Username
@@ -55,15 +55,15 @@ export default {
       password: '',
       otp: '',
       status: {},
-      twofa:{}
+      twofa: {}
     }
   },
   methods: {
     async login() {
       this.loading = true
-      if(this.status.status && this.status.status === '2fa'){
-        this.twofa = await this.$auth.confirm(this.status.userid, this.otp)
-        if(this.twofa.status === 'ok')
+      if (this.status.status && this.status.status === '2fa') {
+        this.twofa = await this.$auth.confirm(this.otp)
+        if (this.twofa.status === 'ok')
           this.$router.push('/')
         this.loading = false
         return
@@ -71,6 +71,7 @@ export default {
       const login = await this.$auth.login(this.username, this.password)
       this.loading = false
       this.status = login
+      this.$router.push('/auth/login/2fa')
     }
   }
 }
