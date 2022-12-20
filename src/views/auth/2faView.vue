@@ -22,7 +22,14 @@
       </div>
     </div>
   </div>
-  <SimpleToast v-if="this.notificationVisibility" :title="this.notificationTitle" :icon="this.notificationIcon" :description="this.notificationDescription" />
+  <!-- BEGIN: Toast Notification -->
+  <!-- Global notification live region, render this permanently at the end of the document -->
+  <div aria-live="assertive" class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <SimpleToast v-if="this.notificationVisibility" :title="this.notificationTitle" :icon="this.notificationIcon" :description="this.notificationDescription" />
+    </div>
+  </div>
+  <!-- END: Toast Notification -->
 </template>
 
 <script>
