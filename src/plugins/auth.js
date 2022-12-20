@@ -6,8 +6,10 @@ export default {
             login: async (username, password) => {
                 try {
                     const response = await app.axios.post('/auth/signin', {username, password})
-                    if (response.data.token === 'token')
-                        return {status: '2fa', userid: response.data.id}
+                    if (response.data.expire === 0){
+                        await store.set('signin_token', response.data.token)
+                        return {status: '2fa'}
+                    }
                     await w.setToken(response.data.token, response.data.expire)
                     return {status: 'ok'}
                 } catch (e) {
@@ -19,9 +21,10 @@ export default {
             logout: async () => {
                 await store.clear()
             },
-            confirm: async (userid, otp) => {
+            confirm: async (otp) => {
                 try {
-                    const response = await app.axios.post('/auth/auth', {userId: userid, code: otp, rememberMe: false})
+                    const token = await store.get('signin_token')
+                    const response = await app.axios.post('/auth/auth', {token: token, code: otp, rememberMe: true})
                     await w.setToken(response.data.token, response.data.expire)
                     return {status: 'ok'}
                 } catch (e) {
