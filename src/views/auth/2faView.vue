@@ -66,11 +66,15 @@ export default {
     }
   },
   methods: {
-    authenticate() {
+    async authenticate() {
       this.disabled = true;
-      if(this.codeData.length === 7) {
+      if (this.codeData.length === 7) {
         console.log('authentication...')
-        console.warn('authentication failed')
+        const response = await this.$auth.confirm(this.codeData.replaceAll(' ', ''))
+        console.log(response)
+        if(response.status === 'ok')
+          this.$router.push('/')
+
       } else {
         this.wrongInput = true;
         this.notificationTitle = 'Invalid input lenght';
