@@ -1,6 +1,5 @@
 <template>
   <!--
-    TODO: Combine Login & 2FA
     TODO: Add fixed lenght for the input boxes
     TODO: Add animation for the toast notification
     TODO: Add real authentication
