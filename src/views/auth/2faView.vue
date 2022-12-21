@@ -20,12 +20,11 @@
         <p v-else class="mt-2 text-sm text-gray-500" id="2facode-description">The code is in your Two Factor Authentication Mobile App.</p>
 
         <div class="flex items-center justify-start mt-4">
-          <div class="text-base font-medium ">
-            <!-- TODO: Add login authentication reset method -->
-            <RouterLink to="/auth/sign-in" class="font-medium text-cyan-600 hover:text-cyan-500 select-none">
+          <div class="text-base font-medium" @click="backToLogin()">
+            <a class="font-medium text-cyan-600 hover:text-cyan-500 select-none cursor-pointer">
               <span aria-hidden="true"> &larr;</span>
               Back to the Login
-            </RouterLink>
+            </a>
           </div>
         </div>
       </div>
@@ -75,18 +74,20 @@ export default {
     }
   },
   methods: {
+    async backToLogin() {
+      await this.$auth.resetSignIn()
+      this.$router.push('/')
+    },
     async authenticate() {
       this.disabled = true;
       if (this.codeData.length === 7) {
-        console.log('authentication...')
         const response = await this.$auth.confirm(this.codeData.replaceAll(' ', ''))
-        console.log(response)
         if(response.status === 'ok')
           this.$router.push('/')
-
+        alert(JSON.stringify(response))
       } else {
         this.wrongInput = true;
-        this.notificationTitle = 'Invalid input lenght';
+        this.notificationTitle = 'Invalid input length';
         this.notificationIcon = 'fa fa-xmark text-red-600';
         this.notificationDescription = 'Your entry has to be 6 characters long.';
         this.notificationVisibility = true;
