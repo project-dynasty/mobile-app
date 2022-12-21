@@ -2,7 +2,15 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import app from "@/main";
 
 const routes = [
-
+  {
+    name: 'SignIn',
+    path: '/auth/sign-in',
+    component: () => import('@/views/auth/SignInView.vue'),
+    meta: {
+      auth: false,
+      menubar: false
+    }
+  },
   {
     name: 'MainPath',
     path: '/',
