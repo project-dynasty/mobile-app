@@ -17,15 +17,6 @@ const routes = [
     redirect: '/news/1'
   },
   {
-    name: 'LoginView',
-    path: '/auth/login',
-    component: () => import('@/views/auth/LoginView.vue'),
-    meta: {
-      auth: false,
-      menubar: false
-    }
-  },
-  {
     name: '2faView',
     path: '/auth/2fa',
     component: () => import('@/views/auth/2faView.vue'),
