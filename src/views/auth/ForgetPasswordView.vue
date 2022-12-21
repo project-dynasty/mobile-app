@@ -20,8 +20,7 @@
 
         <div>
           <!-- TODO: Add loading animation on loading -->
-          <!-- TODO: Add disabled state-->
-          <button @click="sendVerification" class="flex w-full justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-cyan-700 focus:ring-transparent">Reset Password</button>
+          <button @click="sendVerification" :disabled="disabled" class="flex w-full justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-cyan-700 focus:ring-transparent disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-cyan-700">Reset Password</button>
         </div>
       </form>
     </div>
