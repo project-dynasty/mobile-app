@@ -18,6 +18,16 @@
         </div>
         <p v-if="wrongInput" class="mt-2 text-sm text-red-600" id="2facode-error">Your code must be 6 characters long. Try this again.</p>
         <p v-else class="mt-2 text-sm text-gray-500" id="2facode-description">The code is in your Two Factor Authentication Mobile App.</p>
+
+        <div class="flex items-center justify-start mt-4">
+          <div class="text-base font-medium ">
+            <!-- TODO: Add login authentication reset method -->
+            <RouterLink to="/auth/sign-in" class="font-medium text-cyan-600 hover:text-cyan-500 select-none">
+              <span aria-hidden="true"> &larr;</span>
+              Back to the Login
+            </RouterLink>
+          </div>
+        </div>
       </div>
     </div>
   </div>
