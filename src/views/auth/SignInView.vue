@@ -32,7 +32,7 @@
 
         <div>
           <!-- TODO: Add loading animation on loading -->
-          <button @click="authenticate" :disabled="disabled" class="flex w-full justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-cyan-700 focus:ring-transparent disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-cyan-700">Sign in</button>
+          <button @click="authenticate" :disabled="disabled" class="flex w-full justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-cyan-700 focus:ring-transparent disabled:cursor-not-allowed disabled:bg-cyan-700">Sign in</button>
         </div>
       </form>
     </div>
