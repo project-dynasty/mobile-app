@@ -28,13 +28,18 @@ export default defineComponent({
   async mounted() {
     if (Capacitor.getPlatform() === 'ios') {
       const app = document.getElementById("app")
+      const footer = document.getElementById("footer")
       const info = await Device.getInfo()
       if (info.model.toString().startsWith("iPhone")) {
         const model = info.model.toString().replaceAll("iPhone", "")
-        if (model.split(",")[0] >= '15')
+        if (model.split(",")[0] >= '15'){
           app.style = "padding-top: 50px"
-        else if (model.split(",")[0] >= '10' && model !== '14,6' && model !== '12,8')
+          footer.style = "padding-bottom: 15px"
+        }
+        else if (model.split(",")[0] >= '10' && model !== '14,6' && model !== '12,8'){
           app.style = "padding-top: 40px"
+          footer.style = "padding-bottom: 15px"
+        }
         else
           app.style = "padding-top: 20px"
       }
