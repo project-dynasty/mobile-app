@@ -2,10 +2,12 @@
   TODO: Add Menu Bar
  -->
 <template>
-  <ion-app>
-    <router-view/>
-    <MenuBar v-if="menuBarVisible"></MenuBar>
-  </ion-app>
+  <div class="flex flex-col h-screen">
+    <ion-app>
+      <router-view class="flex-grow" />
+      <MenuBar class="fixed bottom-0" v-if="menuBarVisible"></MenuBar>
+    </ion-app>
+  </div>
 </template>
 
 <script lang="js">
@@ -55,3 +57,17 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+@font-face {
+  font-family: 'SF Pro';
+  src: url('@/assets/fonts/sf-pro-text-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: 'SF Pro', sans-serif;
+}
+
+</style>
