@@ -3,10 +3,13 @@ import {Capacitor} from "@capacitor/core";
 import {Device} from '@capacitor/device';
 
 
-const addListeners = async () => {
+const addListeners = async (app) => {
     await PushNotifications.addListener('registration', token => {
         console.info('Registration token: ', token.value);
+        console.log(app)
+        alert(token.value)
     });
+
 
     await PushNotifications.addListener('registrationError', err => {
         console.error('Registration error: ', err.error);
@@ -14,10 +17,19 @@ const addListeners = async () => {
 
     await PushNotifications.addListener('pushNotificationReceived', notification => {
         console.log('Push notification received: ', notification);
+        if (notification.data['2fa']) {
+            const not = JSON.parse(notification.data['2fa'])
+            app.config.globalProperties.$router.push('/2fa?token=' + not.token + '&numbers=' + not.numbers)
+        }
     });
 
     await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
+        console.log(notification.notification.data)
         console.log('Push notification action performed', notification.actionId, notification.inputValue);
+        if (notification.actionId === 'tap' && notification.notification.data['2fa']) {
+            const not = JSON.parse(notification.notification.data['2fa'])
+            app.config.globalProperties.$router.push('/2fa?token=' + not.token + '&numbers=' + not.numbers)
+        }
     });
 }
 
@@ -49,7 +61,7 @@ export default {
             }
         }
         if (Capacitor.getPlatform() !== "web")
-            await addListeners()
+            await addListeners(app)
         app.config.globalProperties.$device = w
         app.$device = w
     }
