@@ -32,9 +32,8 @@ export default {
                 const current = new Date().getTime()
                 return current < expire
             },
-            async checkConfirmStatus() {
+            async checkConfirmStatus(token) {
                 try {
-                    const token = await store.get('signin_token')
                     const {data} = await app.axios.get('/auth/status?token=' + token)
                     if (data.token){
                         data.status = 'ok'
