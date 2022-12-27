@@ -16,10 +16,12 @@ export default {
                 try {
                     const token = await store.get('signin_token')
                     const response = await app.axios.post('/auth/auth', {token: token, code: otp, rememberMe: true})
-                    await w.setToken(response.data.token, response.data.expire)
-                    await this.resetSignIn()
+                    console.log(response)
+                    /*await w.setToken(response.data.token, response.data.expire)
+                    await w.resetSignIn()*/
                     return {status: 'ok'}
                 } catch (e) {
+                    console.log(e)
                     if (e.response.status === 400)
                         return {status: 'failed', code: 400}
                     return {status: 'failed'}
@@ -29,6 +31,19 @@ export default {
                 const expire = await store.get('expire')
                 const current = new Date().getTime()
                 return current < expire
+            },
+            async checkConfirmStatus() {
+                try {
+                    const token = await store.get('signin_token')
+                    const {data} = await app.axios.get('/auth/status?token=' + token)
+                    if (data.token){
+                        data.status = 'ok'
+                        await w.setToken(data.token, data.expire)
+                    }
+                    return data
+                } catch (e) {
+                    return {status: 'error'}
+                }
             },
             login: async (username, password) => {
                 try {

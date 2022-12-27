@@ -10,14 +10,22 @@
       <div class="2fa">
         <label for="2facode" class="block text-sm font-medium text-gray-700">2FA Code</label>
         <div class="relative mt-1 rounded-md shadow-sm">
-          <input v-if="wrongInput" type="text" name="2facode" id="2facode" v-maska data-maska="### ###" v-model="this.codeData" @keyup.enter="this.authenticate()" class="block w-full rounded-md border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm" placeholder="123 456" aria-invalid="true" aria-describedby="2facode-error" />
-          <input v-else type="text" name="2facode" id="2facode" v-maska data-maska="### ###" v-model="this.codeData" @keyup.enter="this.authenticate()" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm" placeholder="123 456" aria-describedby="2facode-description" />
+          <input v-if="wrongInput" type="text" name="2facode" id="2facode" v-maska data-maska="### ###"
+                 v-model="this.codeData" @keyup.enter="this.authenticate()"
+                 class="block w-full rounded-md border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
+                 placeholder="123 456" aria-invalid="true" aria-describedby="2facode-error"/>
+          <input v-else type="text" name="2facode" id="2facode" v-maska data-maska="### ###" v-model="this.codeData"
+                 @keyup.enter="this.authenticate()"
+                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm"
+                 placeholder="123 456" aria-describedby="2facode-description"/>
           <div v-if="wrongInput" class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <i class="fa fa-circle-exclamation h-4 h-4 text-red-500" aria-hidden="true"></i>
           </div>
         </div>
-        <p v-if="wrongInput" class="mt-2 text-sm text-red-600" id="2facode-error">Your code must be 6 characters long. Try this again.</p>
-        <p v-else class="mt-2 text-sm text-gray-500" id="2facode-description">The code is in your Two Factor Authentication Mobile App.</p>
+        <p v-if="wrongInput" class="mt-2 text-sm text-red-600" id="2facode-error">Your code must be 6 characters long.
+          Try this again.</p>
+        <p v-else class="mt-2 text-sm text-gray-500" id="2facode-description">The code is in your Two Factor
+          Authentication Mobile App.</p>
 
         <div class="flex items-center justify-start mt-4">
           <div class="text-base font-medium" @click="backToLogin()">
@@ -34,15 +42,17 @@
   <!-- Global notification live region, render this permanently at the end of the document -->
   <div aria-live="assertive" class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
     <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
-      <SimpleToast v-if="this.notificationVisibility" :title="this.notificationTitle" :icon="this.notificationIcon" :description="this.notificationDescription" />
+      <SimpleToast v-if="this.notificationVisibility" :title="this.notificationTitle" :icon="this.notificationIcon"
+                   :description="this.notificationDescription"/>
     </div>
   </div>
   <!-- END: Toast Notification -->
 </template>
 
 <script>
-import { vMaska } from "maska"
+import {vMaska} from "maska"
 import SimpleToast from "@/components/notifications/toasts/SimpleToast";
+
 export default {
   name: "2faView",
   components: {SimpleToast},
@@ -54,14 +64,30 @@ export default {
       notificationVisibility: false,
       notificationTitle: '',
       notificationIcon: '',
-      notificationDescription: ''
+      notificationDescription: '',
+      timeout: 0
     }
   },
-  directives: { maska: vMaska },
+  mounted() {
+    this.timeout = setInterval(async () => {
+      const response = await this.$auth.checkConfirmStatus()
+      if (response.status === 'ok'){
+        clearInterval(this.timeout)
+        await this.$auth.resetSignIn()
+        this.$router.push('/')
+      }
+      if(response.status === 'error'){
+        clearInterval(this.timeout)
+        await this.$auth.resetSignIn()
+        this.$router.push('/')
+      }
+    }, 5000)
+  },
+  directives: {maska: vMaska},
   watch: {
     codeData() {
-      if(this.codeData.length >= 7) {
-        if(this.disabled) {
+      if (this.codeData.length >= 7) {
+        if (this.disabled) {
           console.warn('disabled');
         } else {
           this.authenticate()
@@ -82,8 +108,6 @@ export default {
       this.disabled = true;
       if (this.codeData.length === 7) {
         const response = await this.$auth.confirm(this.codeData.replaceAll(' ', ''))
-        if(response.status === 'ok')
-          this.$router.push('/')
         alert(JSON.stringify(response))
       } else {
         this.wrongInput = true;
