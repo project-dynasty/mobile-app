@@ -6,9 +6,7 @@
   "plugins": {
     "PushNotifications": {
       "presentationOptions": [
-        "badge",
-        "sound",
-        "alert"
+        "badge"
       ]
     }
   }
