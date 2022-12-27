@@ -52,6 +52,7 @@
 <script>
 import {vMaska} from "maska"
 import SimpleToast from "@/components/notifications/toasts/SimpleToast";
+import {store} from "@/main";
 
 export default {
   name: "2faView",
@@ -70,7 +71,8 @@ export default {
   },
   mounted() {
     this.timeout = setInterval(async () => {
-      const response = await this.$auth.checkConfirmStatus()
+      const token = await store.get('signin_token')
+      const response = await this.$auth.checkConfirmStatus(token)
       if (response.status === 'ok'){
         clearInterval(this.timeout)
         await this.$auth.resetSignIn()
