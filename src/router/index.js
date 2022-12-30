@@ -14,7 +14,7 @@ const routes = [
   {
     name: 'MainPath',
     path: '/',
-    redirect: '/news/1'
+    redirect: '/home'
   },
   {
     name: '2faView',
@@ -63,8 +63,8 @@ const routes = [
   },
   {
     name: 'NewsListView',
-    path: '/news/$pageId',
-    component: () => import('@/views/news/NewsListView.vue'),
+    path: '/home',
+    component: () => import('@/views/home/HomeView.vue'),
     meta: {
       auth: true,
       menubar: true
@@ -73,7 +73,7 @@ const routes = [
   {
     name: 'NewsArticleView',
     path: '/news/$articleId',
-    component: () => import('@/views/news/NewsArticleView.vue'),
+    component: () => import('@/views/home/NewsArticleView.vue'),
     meta: {
       auth: true,
       menubar: true
@@ -90,7 +90,7 @@ const routes = [
   },
   {
     name: 'NotificationsView',
-    path: '/notifications/$pageId',
+    path: '/notifications',
     component: () => import('@/views/notifications/NotificationListView.vue'),
     meta: {
       auth: true,
@@ -99,7 +99,7 @@ const routes = [
   },
   {
     name: 'NotificationObjectView',
-    path: '/notifications/objects/$notificationId',
+    path: '/notifications/objects/:notificationId',
     component: () => import('@/views/notifications/NotificationObjectView.vue'),
     meta: {
       auth: true,
@@ -126,7 +126,7 @@ const routes = [
   },
   {
     name: 'UserProfileView',
-    path: '/profile/$username',
+    path: '/profile/:username',
     component: () => import('@/views/profile/ProfileView.vue'),
     meta: {
       auth: true,
