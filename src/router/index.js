@@ -2,38 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import app from "@/main";
 
 const routes = [
-  {
-    name: 'SignIn',
-    path: '/auth/sign-in',
-    component: () => import('@/views/auth/SignInView.vue'),
-    meta: {
-      auth: false,
-      menubar: false
-    }
-  },
-  {
-    name: 'MainPath',
-    path: '/',
-    redirect: '/home'
-  },
-  {
-    name: '2faView',
-    path: '/auth/2fa',
-    component: () => import('@/views/auth/2faView.vue'),
-    meta: {
-      auth: false,
-      menubar: false
-    }
-  },
-  {
-    name: 'ForgetPasswordView',
-    path: '/auth/forget-password',
-    component: () => import('@/views/auth/ForgetPasswordView.vue'),
-    meta: {
-      auth: false,
-      menubar: false
-    }
-  },
+    // Error Routes
   {
     name: 'MaintenanceView',
     path: '/errors/maintenance',
@@ -61,14 +30,39 @@ const routes = [
       menubar: true,
     }
   },
+    // Authentication Routes
   {
-    name: 'NewsListView',
-    path: '/home',
-    component: () => import('@/views/home/HomeView.vue'),
+    name: 'SignIn',
+    path: '/auth/sign-in',
+    component: () => import('@/views/auth/SignInView.vue'),
     meta: {
-      auth: true,
-      menubar: true
+      auth: false,
+      menubar: false
     }
+  },
+  {
+    name: 'ForgetPasswordView',
+    path: '/auth/forget-password',
+    component: () => import('@/views/auth/ForgetPasswordView.vue'),
+    meta: {
+      auth: false,
+      menubar: false
+    }
+  },
+  {
+    name: '2faView',
+    path: '/auth/2fa',
+    component: () => import('@/views/auth/2faView.vue'),
+    meta: {
+      auth: false,
+      menubar: false
+    }
+  },
+    // Home Routes
+  {
+    name: 'MainPath',
+    path: '/',
+    redirect: '/home'
   },
   {
     name: 'NewsArticleView',
@@ -80,6 +74,16 @@ const routes = [
     }
   },
   {
+    name: 'NewsListView',
+    path: '/home',
+    component: () => import('@/views/home/HomeView.vue'),
+    meta: {
+      auth: true,
+      menubar: true
+    }
+  },
+    // Explore Routes
+  {
     name: 'ExploreView',
     path: '/explore',
     component: () => import('@/views/explore/ExploreView.vue'),
@@ -88,6 +92,7 @@ const routes = [
       menubar: true
     }
   },
+    // Notifcation Routes
   {
     name: 'NotificationsView',
     path: '/notifications',
@@ -106,6 +111,7 @@ const routes = [
       menubar: true
     }
   },
+    // Profile Routes
   {
     name: 'ProfileView',
     path: '/profile',
