@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a>Login Bestätigen</a>
+  <div class="px-5 py-5">
+    <a>Confirm Authentication</a>
     <div class="text-center mt-10">
       <a class="m-10 p-5 rounded bg-cyan-300 cursor-pointer" v-for="number in numbers" :key="number"
          @click="confirm(number)">{{ number }}</a>
