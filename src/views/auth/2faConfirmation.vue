@@ -24,7 +24,7 @@ export default {
         const response = await app.axios.post('/auth/mobile-auth?token=' + this.token + '&confirmCode=' + number);
         alert("Status: "+response.status)
       } catch (e) {
-        alert("Fehler: "+e.response.status)
+        alert("Error: "+e.response.status)
       }
       this.$router.push('/')
     }
