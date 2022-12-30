@@ -1,4 +1,5 @@
 import {store} from "@/main";
+import {Device} from "@capacitor/device";
 
 export default {
     install: async (app) => {
@@ -46,7 +47,8 @@ export default {
             },
             login: async (username, password) => {
                 try {
-                    const response = await app.axios.post('/auth/signin', {username, password})
+                    const device = await Device.getInfo()
+                    const response = await app.axios.post('/auth/signin?osType='+device.operatingSystem+'&osVersion='+device.osVersion, {username, password})
                     if (response.data.expire === 0) {
                         await store.set('signin_token', response.data.token)
                         return {status: '2fa'}
@@ -70,6 +72,7 @@ export default {
                 await store.set('expire', expire)
             },
         }
+
         app.config.globalProperties.$auth = w
         app.$auth = w
     }
