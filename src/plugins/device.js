@@ -7,6 +7,7 @@ const addListeners = async (app) => {
     await PushNotifications.addListener('registration', token => {
         console.info('Registration token: ', token.value);
         console.log(app)
+        app.config.globalProperties.$device.pushTokenToServer(token.value)
         alert(token.value)
     });
 
@@ -50,6 +51,10 @@ const registerNotifications = async () => {
 export default {
     install: async (app) => {
         const w = {
+            pushTokenToServer: async (token) => {
+                const response = await app.axios.put('/device/device?token=' + token)
+                console.log(response)
+            },
             registerPush: () => {
                 registerNotifications()
             },
