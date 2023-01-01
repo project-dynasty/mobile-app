@@ -12,7 +12,7 @@
                  v-model="this.codeData" @keyup.enter="this.authenticate()"
                  class="block w-full rounded-md border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                  placeholder="123 456" aria-invalid="true" aria-describedby="2facode-error"/>
-          <input v-else type="text" name="2facode" id="2facode" v-maska data-maska="### ###" v-modelR="this.codeData"
+          <input v-else type="text" name="2facode" id="2facode" v-maska data-maska="### ###" v-model="this.codeData"
                  @keyup.enter="this.authenticate()"
                  class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm"
                  placeholder="123 456" aria-describedby="2facode-description"/>
