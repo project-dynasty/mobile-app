@@ -58,6 +58,15 @@ const routes = [
       menubar: false
     }
   },
+  {
+    name: '2faConfirmation',
+    path: '/2fa',
+    component: () => import('@/views/auth/2faConfirmation.vue'),
+    meta: {
+      auth: true,
+      menubar: false
+    }
+  },
     // Home Routes
   {
     name: 'MainPath',
