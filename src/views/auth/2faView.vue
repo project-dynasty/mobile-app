@@ -73,6 +73,7 @@ export default {
       if (response.status === 'ok'){
         clearInterval(this.timeout)
         await this.$auth.resetSignIn()
+        await this.$auth.startRefreshInterval()
         this.$router.push('/')
       }
       if(response.status === 'error'){
