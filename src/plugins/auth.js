@@ -84,7 +84,8 @@ export default {
                         username,
                         password,
                         osType: device.operatingSystem,
-                        osVersion: device.osVersion
+                        osVersion: device.osVersion,
+                        screenSize: window.innerHeight+"x"+window.innerWidth
                     })
                     const token = w.parseJwt(response.data.token)
                     if (token.otp) {
