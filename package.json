@@ -30,7 +30,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "axios": "^1.2.1",
     "capacitor-resources": "^2.0.5",
-    "core-js": "^3.6.5",
+    "core-js": "^3.28.0",
     "ionicons": "^6.0.3",
     "maska": "^2.1.1",
     "vue": "^3.2.21",
