@@ -33,7 +33,7 @@
     "core-js": "^3.6.5",
     "ionicons": "^6.0.3",
     "maska": "^2.1.1",
-    "vue": "^3.2.21",
+    "vue": "^3.2.47",
     "vue-axios": "^3.5.2",
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^4.0.12"
