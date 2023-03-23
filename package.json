@@ -23,7 +23,7 @@
     "@headlessui/vue": "^1.7.12",
     "@ionic/storage": "^3.0.6",
     "@ionic/vue": "^6.0.0",
-    "@ionic/vue-router": "^6.6.0",
+    "@ionic/vue-router": "^6.7.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.2",
