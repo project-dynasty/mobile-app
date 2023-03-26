@@ -3,8 +3,9 @@ import {Device} from "@capacitor/device";
 
 export default {
     install: async (app) => {
-        let authUrl = 'https://auth-api.project-dynasty.com'
+        let authUrl = 'https://api.project-dynasty.de/auth'
         let timeout;
+        let saved = {}
         const w = {
             changeRoute: async to => {
                 const auth = await w.isAuthorized()
@@ -18,15 +19,14 @@ export default {
             confirm: async (otp) => {
                 try {
                     const token = await store.get('signin_token')
-                    const response = await app.axios.post(authUrl + '/auth/otp', {
+                    const response = await app.axios.post(authUrl + '/otp', {
                         token: token,
                         code: otp,
                         rememberMe: true,
                         mobile: false
                     })
                     console.log(response)
-                    /*await w.setToken(response.data.token, response.data.expire)
-                    await w.resetSignIn()*/
+                    await app.$device.open()
                     return {status: 'ok'}
                 } catch (e) {
                     console.log(e)
@@ -37,15 +37,30 @@ export default {
             },
             claimChallenge: async challenge => {
                 try {
-                    await app.axios.post(authUrl + "/auth/challenge/claim", {challenge})
+                    await app.axios.post(authUrl + "/challenge/claim", {challenge})
                     return true
                 } catch (e) {
                     return false;
                 }
             },
+            unclaim: async challenge => {
+                try {
+                    await app.axios.post(authUrl+"/challenge/unclaim", {challenge})
+                    return true
+                }catch (e) {
+                    return false
+                }
+            },
+            solve: async challenge => {
+                try {
+                    await app.axios.post(authUrl+"/challenge/solve", {challenge})
+                    return true
+                }catch (e) {
+                    return false
+                }
+            },
             isAuthorized: async () => {
                 try{
-
                     const expire = (await w.parseJwt(await store.get('refresh'))).exp
                     const current = Math.floor(new Date().getTime() / 1000)
                     return current < expire
@@ -55,7 +70,7 @@ export default {
             },
             async checkConfirmStatus(token) {
                 try {
-                    const {data} = await app.axios.post(authUrl + '/auth/status', {token})
+                    const {data} = await app.axios.post(authUrl + '/status', {token})
                     console.log(data)
                     if (data.token) {
                         data.status = 'ok'
@@ -69,6 +84,9 @@ export default {
             async getExpireDate() {
                 return await store.get('expire')
             },
+            async getRefreshExpireDate() {
+                return await store.get('refresh_expire')
+            },
             startRefreshInterval: async () => {
                 const renew = await app.$auth.getExpireDate() - Math.floor(new Date().getTime() / 1000)
                 timeout = setTimeout(async () => {
@@ -80,7 +98,7 @@ export default {
             login: async (username, password) => {
                 try {
                     const device = await Device.getInfo()
-                    const response = await app.axios.post(authUrl + '/auth/signin', {
+                    const response = await app.axios.post(authUrl + '/signin', {
                         username,
                         password,
                         osType: device.operatingSystem,
@@ -93,9 +111,11 @@ export default {
                         return {status: '2fa'}
                     }
                     await w.setToken(response.data.token, response.data.expire, "")
+                    await app.$device.open()
                     return {status: 'ok'}
                 } catch (e) {
-                    console.info(e)
+                    if (e.code && e.code === "ERR_NETWORK")
+                        return {status: 'failed', message: 'Bitte überprüfe deine Internetverbindung'}
                     if (e.response.status === 401)
                         return {status: 'failed', code: 401}
                     return {status: 'failed'}
@@ -108,10 +128,15 @@ export default {
             resetSignIn: async () => {
                 await store.remove('signin_token')
             },
+            getToken: async()=>{
+                const token = await store.get('token')
+                return token
+            },
             setToken: async (token, expire, refresh) => {
                 await store.set('token', token)
                 await store.set('expire', expire)
                 await store.set('refresh', refresh)
+                await store.set("expire_refresh" ,w.parseJwt(refresh).exp)
             },
             parseJwt(token) {
                 if (token === undefined) return null
@@ -126,13 +151,31 @@ export default {
             refresh: async () => {
                 try {
                     const token = await store.get('refresh')
-                    const response = await app.axios.post(authUrl + '/auth/refresh', {}, {headers: {'token': token}})
+                    const response = await app.axios.post(authUrl + '/refresh', {}, {headers: {'token': token}})
+                    console.log(response)
                     await w.setToken(response.data.token, w.parseJwt(response.data.token).exp, response.data.refreshToken)
                     return true
                 } catch (e) {
-                    console.log(e)
+                    console.error(e)
                     return false
                 }
+            },
+            openMultiFactor(token, numbers){
+                app._instance.multiFactorToken = token
+                app._instance.multiFactorConfirm = true
+                app._instance.multiFactorNumbers = numbers
+            },
+            open() {
+                app._instance.open = true
+            },
+            close() {
+                app._instance.open = false
+            },
+            getSaved() {
+                return saved
+            },
+            saveNotification(token, numbers) {
+                saved = {token, numbers, confirm: true}
             }
         }
 
