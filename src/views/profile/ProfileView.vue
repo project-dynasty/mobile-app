@@ -41,6 +41,8 @@
 
 
 <script>
+import {store} from "@/main";
+
 export default {
   name: "ProfileView",
   computed: {
@@ -58,10 +60,15 @@ export default {
       }
     },
   },
+  async mounted() {
+    const user = await store.get('user')
+    this.user.name = user.account.firstName
+    this.user.imageUrl = 'data:image/png;base64, '+user.account.avatarBase64
+  },
   data() {
     return {
       user: {
-        name: 'Nico',
+        name: '',
         imageUrl: 'https://avatars.githubusercontent.com/u/50241630?v=4',
         permissions: {
           beta: false,
