@@ -21,10 +21,13 @@ export default {
   methods: {
     async confirm(number) {
       try {
-        const response = await app.axios.post('/auth/mobile-auth?token=' + this.token + '&confirmCode=' + number);
-        alert("Status: "+response.status)
+        const response = await app.axios.post('https://api.project-dynasty.de/auth/mobile-auth', {
+          token: this.token,
+          confirmCode: number
+        });
+        alert("Status: " + response.status)
       } catch (e) {
-        alert("Error: "+e.response.status)
+        alert("Error: " + e.response.status)
       }
       this.$router.push('/')
     }
