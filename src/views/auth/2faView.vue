@@ -74,6 +74,7 @@ export default {
         clearInterval(this.timeout)
         await this.$auth.resetSignIn()
         await this.$auth.startRefreshInterval()
+        await this.$device.open()
         this.$router.push('/')
       }
       if(response.status === 'error'){
