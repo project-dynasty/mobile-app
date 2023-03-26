@@ -44,9 +44,12 @@ app.use(news)
 app.use(infiniteScroll)
 
 t.addListener('appUrlOpen', (event) => {
-    // Example url: https://beerswift.app/tabs/tabs2
-    // slug = /tabs/tabs2
-    console.log(event.url)
+    const slug = event.url.replace("https://app.project-dynasty.com", "")
+    console.log(slug)
+    console.log(slug.split("/"))
+    if(slug.startsWith("/auth/qr")){
+        router.push('/profile/settings?qr='+slug.split('/')[3])
+    }
 });
 
 store.create().then(async () => {
@@ -65,8 +68,9 @@ store.create().then(async () => {
         if (logout) {
             alert("Du wurdest ausgeloggt. Die App wurde zulange nicht geöffnet.")
             app.$auth.logout()
-            app.$router.push('/')
+            window.location.reload()
         }
+        app.$device.open()
         app.mount('#app');
     });
 })
