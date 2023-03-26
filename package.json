@@ -32,7 +32,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "axios": "^1.3.4",
     "capacitor-resources": "^2.0.5",
-    "core-js": "^3.29.0",
+    "core-js": "^3.29.1",
     "ionicons": "^7.0.0",
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
     "maska": "^2.1.1",
