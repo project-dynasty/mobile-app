@@ -2,9 +2,9 @@
   <div class="relative bg-gray-50 dark:bg-gray-900 px-5 pt-5 pb-20 sm:px-6 lg:px-8 lg:pt-24 lg:pb-28">
     <div class="relative mx-auto max-w-7xl">
       <p class="text-xl font-semibold text-gray-900 dark:text-gray-300">Home</p>
-      <div class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3" @scroll="handleScroll">
+      <div class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
         <div v-for="article in articles" :key="article.title"
-             class="flex flex-col overflow-hidden rounded-lg shadow-lg" >
+             class="flex flex-col overflow-hidden rounded-lg shadow-lg">
           <div class="flex-shrink-0">
             <img class="h-48 w-full object-cover" :src="article.imageUrl" alt=""/>
           </div>
@@ -16,10 +16,10 @@
                   }}
                 </RouterLink>
               </p>
-              <RouterLink :to="article.url" class="mt-2 block">
+              <!--RouterLink :to="article.url" class="mt-2 block"-->
                 <p class="text-xl font-semibold text-gray-900 dark:text-gray-300">{{ article.title }}</p>
                 <p class="mt-3 text-base text-gray-500 dark:text-gray-300">{{ article.description }}</p>
-              </RouterLink>
+              <!--/RouterLink-->
             </div>
             <div class="mt-6 flex items-center">
               <div class="flex-shrink-0">
@@ -47,6 +47,7 @@
   </div>
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -108,9 +109,6 @@ export default {
         },
       ]
     }
-  },
-  mounted() {
-    //this.$news.load()
   }
 }
 </script>
