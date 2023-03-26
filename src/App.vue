@@ -4,28 +4,44 @@
 <template>
   <div class="flex flex-col h-screen">
     <ion-app>
-      <router-view class="flex-grow" />
+      <router-view class="flex-grow" @open="open = true"/>
       <MenuBar class="fixed bottom-0" v-if="menuBarVisible"></MenuBar>
+      <ModalDemo :open="open" @close="open = false"></ModalDemo>
+      <ModalMultiFactorConfirm :open="multiFactorConfirm" :numbers="multiFactorNumbers" :token="multiFactorToken" @close="multiFactorConfirm = false"></ModalMultiFactorConfirm>
     </ion-app>
   </div>
 </template>
 
-<script lang="js">
+<script>
 import {IonApp} from '@ionic/vue';
-import {defineComponent} from 'vue';
 import "@/assets/styles/tailwind.css";
 import MenuBar from "@/components/static/MenuBar";
 import {Capacitor} from "@capacitor/core";
 import {Device} from "@capacitor/device";
+import ModalDemo from "@/components/ModalDemo.vue";
+import ModalMultiFactorConfirm from "@/components/ModalMultiFactorConfirm.vue";
+import app from "@/main";
 
-export default defineComponent({
+export default {
   name: 'App',
   data() {
     return {
-      menuBar: true
+      open: false,
+      menuBar: true,
+      multiFactorConfirm: false,
+      multiFactorNumbers: [],
+      multiFactorToken: ''
     }
   },
+  created() {
+    app._instance = this
+  },
   async mounted() {
+    if(this.$auth.getSaved().confirm){
+      this.multiFactorToken = this.$auth.getSaved().token
+      this.multiFactorNumbers = this.$auth.getSaved().numbers
+      this.multiFactorConfirm = this.$auth.getSaved().confirm
+    }
     if (Capacitor.getPlatform() === 'ios') {
       const app = document.getElementById("app")
       const footer = document.getElementById("footer")
@@ -57,10 +73,12 @@ export default defineComponent({
     }
   },
   components: {
+    ModalMultiFactorConfirm,
+    ModalDemo,
     MenuBar,
     IonApp
   }
-});
+};
 </script>
 
 <style>
