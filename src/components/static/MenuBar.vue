@@ -18,19 +18,42 @@
         </div>
       </RouterLink>
       <RouterLink to="/profile" :class="{ 'text-cyan-600 dark:text-cyan-300': $route.path === '/profile' }" class="w-full md:w-1/4 px-2 py-1 text-center opacity-100">
-        <div class="flex items-center justify-center my-2 text-xl">
+        <div v-if="avatar.length === 0"  class="flex items-center justify-center my-2 text-xl">
           <i class="fas fa-user-circle"></i>
+
         </div>
+        <div v-if="avatar.length !== 0"  class="flex items-center justify-center my-2 text-xl">
+          <img class="mx-auto h-5 w-5 rounded-full" :src="avatar" alt="profile-picture" />
+      </div>
       </RouterLink>
     </nav>
   </footer>
 </template>
 
 <script>
+import {store} from "@/main";
+
 export default {
   name: 'MenuBar',
-  mounted() {
-    console.log(this.$route.path)
+  data() {
+    return {
+      avatar: ''
+    }
+  },
+  async mounted() {
+    await this.setAvatar()
+  },
+  methods: {
+    async setAvatar() {
+      try{
+        const user = await store.get('user')
+        this.avatar = 'data:image/png;base64, '+user.account.avatarBase64
+      }catch (e){
+        setTimeout(() => {
+          this.setAvatar()
+        }, 5000)
+      }
+    }
   }
 }
 </script>
