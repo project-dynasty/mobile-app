@@ -21,6 +21,7 @@ import {Device} from "@capacitor/device";
 import ModalDemo from "@/components/ModalDemo.vue";
 import ModalMultiFactorConfirm from "@/components/ModalMultiFactorConfirm.vue";
 import app from "@/main";
+import {SplashScreen} from "@capacitor/splash-screen";
 
 export default {
   name: 'App',
@@ -37,6 +38,7 @@ export default {
     app._instance = this
   },
   async mounted() {
+    await SplashScreen.hide()
     if(this.$auth.getSaved().confirm){
       this.multiFactorToken = this.$auth.getSaved().token
       this.multiFactorNumbers = this.$auth.getSaved().numbers
