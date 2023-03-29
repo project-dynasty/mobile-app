@@ -83,8 +83,26 @@ export default {
                     console.log("error on saveAvatarFromServer")
                 }
             },
+            setGroupsInStore: async() => {
+                const auth = await app.$auth.isAuthorized()
+                if (!auth)
+                    return
+                try {
+                    const {data} = await app.axios.get('https://tcp-api.project-dynasty.com/permission/groups')
+                    await store.set('groups', data)
+                } catch (e) {
+                    console.log(e)
+                    console.log("error on saveAvatarFromServer")
+                }
+            },
             open: () => {
                 w.setUserInStore()
+                w.setGroupsInStore()
+            },
+            getUserGroups: async () => {
+                const groups = await store.get('groups')
+                const user = await store.get('user')
+                return groups.filter(g => user.account.groups.includes(g.id))
             },
             pushTokenToServer: async (token) => {
                 const response = await app.axios.post('https://api.project-dynasty.de/push/update', {token})
