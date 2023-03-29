@@ -28,7 +28,7 @@
                 <p v-if="user.permissions.role" class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ user.permissions.role }}</p>
               </div>
               <div class="mt-5 flex justify-center sm:mt-0">
-                <span v-if="user.permissions.team" class="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 shadow-sm dark:hover:bg-gray-800 mr-2">Staff</span>
+                <span v-if="user.permissions.team.length > 0" class="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 shadow-sm dark:hover:bg-gray-800 mr-2">{{ user.permissions.team }}</span>
                 <span v-if="user.permissions.beta" class="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 shadow-sm dark:hover:bg-gray-800">Beta</span>
               </div>
             </div>
@@ -64,6 +64,12 @@ export default {
     const user = await store.get('user')
     this.user.name = user.account.firstName
     this.user.imageUrl = 'data:image/png;base64, '+user.account.avatarBase64
+    const groups = await this.$device.getUserGroups()
+    if(!(groups && groups.length > 0))
+      return
+    this.user.permissions.role = groups[0].displayName
+    this.user.permissions.team = groups[0].team
+    this.user.permissions.beta = await this.$auth.hasPermission("tcp.beta")
   },
   data() {
     return {
@@ -72,7 +78,7 @@ export default {
         imageUrl: 'https://avatars.githubusercontent.com/u/50241630?v=4',
         permissions: {
           beta: false,
-          team: false,
+          team: '',
           role: ''
         }
       },

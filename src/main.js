@@ -9,10 +9,9 @@ import auth from "@/plugins/auth";
 import news from "@/plugins/news";
 import infiniteScroll from 'vue-infinite-scroll'
 import {App as t} from "@capacitor/app";
-
+import {SplashScreen} from "@capacitor/splash-screen";
 
 import {IonicVue} from '@ionic/vue';
-
 
 /* TailwindCSS */
 import "@/assets/styles/tailwind.css";
@@ -53,6 +52,7 @@ t.addListener('appUrlOpen', (event) => {
 });
 
 store.create().then(async () => {
+    await SplashScreen.show({autoHide: false})
     const refresh = await store.get('refresh')
     let logout = false
     if (refresh != null && refresh.length > 0) {

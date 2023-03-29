@@ -176,6 +176,28 @@ export default {
             },
             saveNotification(token, numbers) {
                 saved = {token, numbers, confirm: true}
+            },
+            hasPermission: async (permission) => {
+                try {
+                    const permissions = w.parseJwt(await w.getToken())?.permissions
+                    if (permissions === undefined) return false
+                    let has = false;
+                    for (let i = 0; i < permissions.length; i++) {
+                        let access = false;
+                        const response = permission.match(permissions[i].perm.replaceAll("*", "(.*)"))
+                        if (response !== null && response.length > 0)
+                            access = true;
+                        if (has && access && permissions[i].negate) {
+                            has = false
+                            break;
+                        }
+                        if (access)
+                            has = access
+                    }
+                    return has
+                } catch (e) {
+                    return false
+                }
             }
         }
 
