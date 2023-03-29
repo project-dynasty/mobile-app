@@ -1,11 +1,11 @@
 <template>
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
     <div class="px-5 py-5">
-      <div class="flex">
-        <div class="flex-col">
+      <div class="flex items-center justify-between ">
+        <div class="flex justify-start">
           <p class="text-xl font-semibold text-gray-900 dark:text-gray-300">Profile</p>
         </div>
-        <div class="flex-col">
+        <div class="flex justify-end">
           <RouterLink to="/profile/settings">
             <i class="fa fa-gear h-4 w-4 text-gray-900 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-400" />
           </RouterLink>
@@ -50,7 +50,7 @@ export default {
       const currentTime = new Date().getHours();
 
       if (currentTime >= 5 && currentTime < 12) {
-        return "Good morning,";
+        return "Good Morning,";
       } else if (currentTime >= 12 && currentTime < 17) {
         return "Hello,";
       } else if (currentTime >= 17 && currentTime < 22) {

@@ -3,7 +3,7 @@
   <div class="h-screen dark:bg-gray-800">
     <div class="mx-auto sm:w-full sm:max-w-md bg-white dark:bg-gray-800">
       <div class="py-5 px-5 sm:px-10">
-        <form class="space-y-6">
+        <form class="space-y-6 mx-auto">
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-400 select-none">Username</label>
             <!-- TODO: Add input validation errors -->
