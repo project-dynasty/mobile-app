@@ -19,12 +19,14 @@
         Mit Apple anmelden
       </button>
       <div class="mt-3">
-
         <button @click="startScan"
                 class="inline-flex items-center rounded-md border border-transparent bg-cyan-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-cyan-700 focus:ring-transparent dark:bg-cyan-400 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-cyan-500 dark:focus:ring-transparent">
           QR Code Scannen
         </button>
-
+      </div>
+      <div v-if="version.visible" class="mt-3 text-gray-900 dark:text-gray-300">
+        <h1 class="font-bold text-lg">Versionen</h1>
+        <a>{{ version.version }} ({{version.build}})</a>
       </div>
     </div>
     <ModalConfirm :open="open" @reject="unclaim" @accept="solve"></ModalConfirm>
@@ -36,11 +38,18 @@
 import {BarcodeScanner} from '@capacitor-community/barcode-scanner';
 import {ASAuthorizationAppleIDRequest, SignInWithApple} from "@awesome-cordova-plugins/sign-in-with-apple";
 import ModalConfirm from "@/components/ModalConfirm.vue";
+import {App} from "@capacitor/app";
+import {Capacitor} from "@capacitor/core";
 
 export default {
   name: "ProfileSettingsView",
   components: {ModalConfirm},
   async mounted() {
+    if(Capacitor.getPlatform() === 'ios'){
+      this.version.version = (await App.getInfo()).version
+      this.version.build = (await App.getInfo()).build
+      this.version.visible = true
+    }
     if (this.$route.query.qr) {
       this.open = true
       const result = await this.$auth.claimChallenge(this.$route.query.qr)
@@ -54,7 +63,12 @@ export default {
   data() {
     return {
       open: false,
-      challenge: ""
+      challenge: "",
+      version: {
+        visible: false,
+        version: '0',
+        build: '0'
+      }
     }
   },
   methods: {
