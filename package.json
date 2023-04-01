@@ -13,7 +13,7 @@
   "dependencies": {
     "@awesome-cordova-plugins/sign-in-with-apple": "^6.3.0",
     "@capacitor-community/barcode-scanner": "^3.0.1",
-    "@capacitor/android": "4.7.1",
+    "@capacitor/android": "4.7.3",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.7.3",
     "@capacitor/device": "^4.1.0",
